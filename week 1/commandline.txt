@@ -9,3 +9,4 @@ find /home *.png
 find echo -type f -executable -print
 man ps -a
 
+
