@@ -1,0 +1,5 @@
+# Architecture will be like this, where we would specify when the job should be run an which script should be used.
+# Like in the example bellow the cron job would start at the 0th minute at 5 PM, but also on every odd day
+Let's state that every second/other day.
+
+0 17 1-31/2 * * /root/runner.sh 'hello'
