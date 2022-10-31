@@ -1,0 +1,20 @@
+find -echo
+find --help
+find -exec echo
+find -exec -echo
+find -print -exec echo
+find -exec -echo
+-find exec
+-find -exec
+-find -executable 
+-find -executable echo
+ ffind 
+find . -type f -executable -print
+find echo -type f -executable -print
+man ps Select all processes
+man ps
+man ps -a
+man ps a
+Get-History -Count 20 > commands.txt
+history | tail -2
+history | tail -20 > commands.txt
