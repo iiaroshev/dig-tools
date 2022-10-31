@@ -1,0 +1,1792 @@
+<p>
+  <ac:structured-macro ac:name="toc">
+    <ac:parameter ac:name="maxLevel">4</ac:parameter>
+    <ac:parameter ac:name="minLevel">2</ac:parameter>
+  </ac:structured-macro>
+</p>
+<h2>Overview</h2>
+<p>The snippets endpoint allows you many ways to create and retrieve information about snippets in Bitbucket.</p>
+<p>Snippets can be either public (visible to anyone on Bitbucket as well as anonymous users), or private (visible only to the owner, creator and members of the team in case the snippet is owned by a team).</p>
+<h3>Permissions</h3>
+<p>Snippets can be either public or private as shown in the following table:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Snippet owner</th>
+      <th>Private:<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[is_private=true]]></ac:plain-text-body>
+</ac:structured-macro></th>
+      <th>Public: <ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[is_private=false]]></ac:plain-text-body>
+</ac:structured-macro></th>
+    </tr>
+    <tr>
+      <td>Team </td>
+      <td>Only members of the team, including the creator, can view the snippet. </td>
+      <td>Everyone, including anonymous users, can view the snippet. Only team members can edit the snippet.</td>
+    </tr>
+    <tr>
+      <td colspan="1">Individual account</td>
+      <td colspan="1">Only the owner of the account can view the snippet.</td>
+      <td colspan="1">Everyone, including anonmyous users, can view the snippet. Only the account owner can edit the snippet.</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+<ac:structured-macro ac:name="info">
+  <ac:rich-text-body>
+    <p>The team or user UUID can also be used in calls, however remember the <a href="https://confluence.atlassian.com/display/BITBUCKET/Use+the+Bitbucket+REST+APIs#UsetheBitbucketRESTAPIs-uuid-mainUniversallyUniqueIdentifier%28UUID%29">UUID specification</a> regarding special characters.</p>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h2>snippetsResource</h2>
+<h3>POST a new snippet</h3>
+<p>Essentially all properties are optional except authentication. This means that creating a snippet from a local file (either binary or text) can be as easy as:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X POST https://api.bitbucket.org/2.0/snippets/ \
+      -F file=@README.md]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="info">
+  <ac:rich-text-body>
+    <p>Bitbucket will assign each snippet an alphanumeric "id" even if you assign a title and description.</p>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to view response...</ac:parameter>
+  <ac:rich-text-body>
+    <pre>curl -u {username} -X POST https://api.bitbucket.org/2.0/snippets/teamsinspace \
+      -F file=@README.md</pre>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "created_on": "2015-03-18T18:50:07.990433+00:00",
+    "creator": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    },
+    "files": {
+        "README.md": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/KzRo/revisions/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3#README.md"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/files/README.md"
+                }
+            }
+        }
+    },
+    "id": "KzRo",
+    "is_private": false,
+    "links": {
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/comments"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/commits"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/KzRo"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo"
+        },
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/watchers"
+        }
+    },
+    "owner": {
+        "display_name": "Teams In Space",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            }
+        },
+        "username": "teamsinspace",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+    },
+    "scm": "git",
+    "title": "",
+    "updated_on": "2015-03-18T18:50:07.990473+00:00"
+}
+]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>POST Multipart considerations</h3>
+<p>A snippet can contain multiple files or entries so you create with a multipart POST using either:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[multipart/related]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>or</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[multipart/form-data]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>Both allow the creation of snippets with both meta data (title, etc), as well as multiple text and binary files. The main difference is that `<code>multipart/related</code>` can use rich encoding for the meta data (currently JSON).</p>
+<h4>multipart/related (RFC-2387)</h4>
+<p>This is the most advanced and efficient way to create a snippet.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[    POST /2.0/snippets/{username} HTTP/1.1
+    Content-Length: 1188
+    Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+    MIME-Version: 1.0
+    --===============1438169132528273974==
+    Content-Type: application/json; charset="utf-8"
+    MIME-Version: 1.0
+    Content-ID: snippet
+    {
+      "title": "My snippet",
+      "is_private": true,
+      "files": {
+          "foo.txt": {},
+          "image.png": {}
+        }
+    }
+    --===============1438169132528273974==
+    Content-Type: text/plain; charset="us-ascii"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 7bit
+    Content-ID: "foo.txt"
+    Content-Disposition: attachment; filename="foo.txt"
+    foo
+    --===============1438169132528273974==
+    Content-Type: image/png
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: base64
+    Content-ID: "image.png"
+    Content-Disposition: attachment; filename="image.png"
+    iVBORw0KGgoAAAANSUhEUgAAABQAAAAoCAYAAAD+MdrbAAABD0lEQVR4Ae3VMUoDQRTG8ccUaW2m
+    TKONFxArJYJamCvkCnZTaa+VnQdJSBFl2SMsLFrEWNjZBZs0JgiL/+KrhhVmJRbCLPx4O+/DT2TB
+    cbblJxf+UWFVVRNsEGAtgvJxnLm2H+A5RQ93uIl+3632PZyl/skjfOn9Gvdwmlcw5aPUwimG+NT5
+    EnNN036IaZePUuIcK533NVfal7/5yjWeot2z9ta1cAczHEf7I+3J0ws9Cgx0fsOFpmlfwKcWPuBQ
+    73Oc4FHzBaZ8llq4q1mr5B2mOUCt815qYR8eB1hG2VJ7j35q4RofaH7IG+Xrf/PfJhfmwtfFYoIN
+    AqxFUD6OMxcvkO+UfKfkOyXfKdsv/AYCHMLVkHAFWgAAAABJRU5ErkJggg==
+    --===============1438169132528273974==--]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>The request contains multiple parts and is structured as follows:</p>
+<ul>
+  <li>The first part is the JSON document which describes the snippet's properties or metadata. It either has to be the first part, or the request's `<code>Content-Type</code>` header must contain the `<code>start</code>` parameter to point to it.</li>
+  <li>The remaining parts are the files of which there can be zero or more. Each file part should contain the `<code>Content-ID</code>` MIME header through which the JSON meta data's `<code>files</code>` element addresses it. The value should be the name of the file.</li>
+  <li>`<code>Content-Disposition</code>` is an optional MIME header. The header's optional `<code>filename</code>` parameter can be used to specify the file name that Bitbucket should use when writing the file to disk. When present, `<code>filename</code>` takes precedence over the value of `<code>Content-ID</code>`.</li>
+  <li>When the JSON body omits the <code>files</code> element, the remaining parts are not ignored. Instead, each file is added to the new snippet as if its name was explicitly linked (the use of the `<code>files</code>` elements is mandatory for some operations like deleting or renaming files).</li>
+</ul>
+<h4>multipart form</h4>
+<p>The use of JSON for the snippet's metadata is optional. Metadata can also be supplied as regular form fields in a more conventional `m<code>ultipart/form-data</code>` request, as shown in the following example:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X POST https://api.bitbucket.org/2.0/snippets/teamsinspace \
+  -F title="multipart snippet" \
+  -F file=@myquote2.html \
+  -F file=@README.md]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click to expand and view a response...</ac:parameter>
+  <ac:rich-text-body>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "created_on": "2015-03-18T17:25:48.967354+00:00",
+    "creator": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    },
+    "files": {
+        "README.md": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e#README.md"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/files/README.md"
+                }
+            }
+        },
+        "myquote2.html": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e#myquote2.html"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/files/myquote2.html"
+                }
+            }
+        }
+    },
+    "id": "kypj",
+    "is_private": false,
+    "links": {
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+        },
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+        }
+    },
+    "owner": {
+        "display_name": "Teams In Space",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            }
+        },
+        "username": "teamsinspace",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+    },
+    "scm": "git",
+    "title": "multipart snippet",
+    "updated_on": "2015-03-18T17:25:48.967370+00:00"
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>Here the meta data properties are included as flat, top-level form fields. The file attachments use the `file` field name. To attach multiple files, simply repeat the field. The advantage of `<code>multipart/form-data</code>` over `<code>multipart/related</code>` is that it's easier to build clients.</p>
+<h3>PUT an update to a snippet</h3>
+<p>Add and delete files and to change a snippet's title. To update a snippet, one can either PUT a full snapshot, or only the parts that need to be changed. The contract for PUT on this API is that properties missing from the request remain untouched so that snippets can be efficiently manipulated with differential payloads. To delete a property (e.g. the title, or a file), include its name in the request, but omit its value (use null).</p>
+<ac:structured-macro ac:name="info">
+  <ac:rich-text-body>
+    <p>Explicit renaming of files is not supported. To rename a file, delete it and add it again under another name. This can be done atomically in a single request. Rename detection is left to the SCM.</p>
+    <p>The owner and creator values cannot be modified in a snippet.</p>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>PUT calls support the following content types for both request and response bodies:</p>
+<ul>
+  <li>
+    <code>application/json</code>
+  </li>
+  <li>
+    <code>multipart/related</code>
+  </li>
+  <li>
+    <code>multipart/form-data</code>
+  </li>
+</ul>
+<p>The content type used for the request body can be different than that used for the response. Content types are specified using standard HTTP headers. Use the <code>Content-Type</code> and <code>Accept</code> headers to select the desired request and response format.</p>
+<h4>application/json</h4>
+<p>As with creation and retrieval, the content type determines what properties can be manipulated. <code>application/json</code> does not support file contents and is therefore limited to a snippet's meta data.</p>
+<h5>Update title without changing files</h5>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X PUT https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id} \
+  -d '{"title": "Newer snippet title"}' \
+  -H 'Content-Type: application/json']]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} -X PUT <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj</span> \</code> <br/> <code>      -d '{"title": "Example API snippet"}' \</code> <br/> <code>      -H 'Content-Type: application/json'</code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="title">View a json respone for chaning title</ac:parameter>
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "created_on": "2015-03-18T19:04:47.666240+00:00",
+    "creator": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    },
+    "files": {
+        "README.md": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e#README.md"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/files/README.md"
+                }
+            }
+        },
+        "myquote2.html": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e#myquote2.html"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/files/myquote2.html"
+                }
+            }
+        }
+    },
+    "id": "kypj",
+    "is_private": false,
+    "links": {
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+        },
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+        }
+    },
+    "owner": {
+        "display_name": "Teams In Space",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            }
+        },
+        "username": "teamsinspace",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+    },
+    "scm": "git",
+    "title": "Example API snippet",
+    "updated_on": "2015-03-18T19:04:47.666275+00:00"
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>To delete a snippet title leave the title field empty just leave the title value empty</p>
+<ac:structured-macro ac:name="code">
+  <ac:parameter ac:name="language">js</ac:parameter>
+  <ac:plain-text-body><![CDATA[curl -u {username} -X PUT https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet ID} \
+  -d '{"title": ""}' \
+  -H 'Content-Type: application/json']]></ac:plain-text-body>
+</ac:structured-macro>
+<h4>multipart/related</h4>
+<p>You can use<code> multipart/related</code> to manipulate all of a snippet's properties. The body is identical to a POST. properties omitted from the request are left unchanged. Since the <code>start</code> part contains JSON, the mechanism for manipulating the snippet's meta data is identical to <code>application/json</code> requests.</p>
+<ac:structured-macro ac:name="code">
+  <ac:parameter ac:name="title">update one of a snippet's file contents, while also changing its title</ac:parameter>
+  <ac:parameter ac:name="language">js</ac:parameter>
+  <ac:parameter ac:name="collapse">true</ac:parameter>
+  <ac:plain-text-body><![CDATA[PUT /2.0/snippets/{username}/{id} HTTP/1.1
+Content-Length: 288
+Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+MIME-Version: 1.0
+
+--===============1438169132528273974==
+Content-Type: application/json; charset="utf-8"
+MIME-Version: 1.0
+Content-ID: snippet
+
+{
+  "title": "My updated snippet",
+  "files": {
+      "foo.txt": {}
+    }
+}
+
+--===============1438169132528273974==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-ID: "foo.txt"
+Content-Disposition: attachment; filename="foo.txt"
+
+Updated file contents.
+
+--===============1438169132528273974==-- ]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>Here only the parts that are changed are included in the body. The other files remain untouched.</p>
+<p>Note the use of the <code>files</code> map in the JSON part. This map contains the files that are being manipulated. This map should have corresponding parts in the request that contain the new contents of these files. If a filename in the <code>files</code> map does not have a corresponding part, it will be deleted from the snippet, as shown below:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[PUT /2.0/snippets/{username}/{id} HTTP/1.1
+Content-Length: 188
+Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+MIME-Version: 1.0
+
+--===============1438169132528273974==
+Content-Type: application/json; charset="utf-8"
+MIME-Version: 1.0
+Content-ID: snippet
+
+{
+  "files": {
+      "foo.txt": {}
+    }
+}
+
+--===============1438169132528273974==--]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>A rename would look something like this:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[PUT /2.0/snippets/{username}/{id} HTTP/1.1
+Content-Length: 212
+Content-Type: multipart/related; start="snippet"; boundary="===============1438169132528273974=="
+MIME-Version: 1.0
+
+--===============1438169132528273974==
+Content-Type: application/json; charset="utf-8"
+MIME-Version: 1.0
+Content-ID: snippet
+
+{
+  "files": {
+      "foo.txt": {},
+      "bar.txt": {}
+    } 
+}
+
+--===============1438169132528273974==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-ID: "bar.txt"
+Content-Disposition: attachment; filename="bar.txt"
+
+foo
+
+--===============1438169132528273974==--]]></ac:plain-text-body>
+</ac:structured-macro>
+<h4>multipart/form-data</h4>
+<p>You can also use <code>multipart/form-data</code> to manipulate file contents and meta data atomically.</p>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <pre>curl -u {username} -X PUT <span>https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/</span> \<br/>      -F title="API docs snippet" \<br/>      -F file=@README.md</pre>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "created_on": "2015-03-18T19:56:51.269348+00:00",
+    "creator": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    },
+    "files": {
+        "README.md": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#README.md"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/README.md"
+                }
+            }
+        },
+        "myquote2.html": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#myquote2.html"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/myquote2.html"
+                }
+            }
+        }
+    },
+    "id": "kypj",
+    "is_private": false,
+    "links": {
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+        },
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+        }
+    },
+    "owner": {
+        "display_name": "Teams In Space",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            }
+        },
+        "username": "teamsinspace",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+    },
+    "scm": "git",
+    "title": "API docs snippet",
+    "updated_on": "2015-03-18T19:56:51.269378+00:00"
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>To delete a file, omit its contents while including its name in the <code>files</code> field. The explicit use of the <code>files</code> element in <code>multipart/related</code> and <code>multipart/form-data</code> is only required when deleting files. The default mode of operation is for file parts to be processed, regardless of whether or not they are listed in <code>files</code>, as a convenience to the client.</p>
+<h3>DELETE a snippet</h3>
+<p>Allows you to delete a snippet. When successful the call returns: <code>HTTP/1.1 204 NO CONTENT</code>
+</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X DELETE https://api.bitbucket.org/2.0/snippets/{teamname or username}/{snippet id}]]></ac:plain-text-body>
+</ac:structured-macro>
+<h3>GET a specific snippet</h3>
+<p>Gets the information associated with a specific snippet. Authentication is required for snippets set to private. This call takes the following parameters:</p>
+<table>
+  <tbody>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>username or teamname</td>
+      <td>yes</td>
+      <td>The Bitbucket username or team name of the snippets owner</td>
+    </tr>
+    <tr>
+      <td colspan="1">id</td>
+      <td colspan="1">yes</td>
+      <td colspan="1">The id assigned by Bitbucket when the snippet was created.</td>
+    </tr>
+  </tbody>
+</table>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets/{username}/{id}]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand to view JSON repsonse without file contents </ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>
+        <span class="nolink">curl <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="title"/>
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "created_on": "2015-03-18T19:56:51.269348+00:00",
+    "creator": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    },
+    "files": {
+        "README.md": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#README.md"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/README.md"
+                }
+            }
+        },
+        "myquote2.html": {
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#myquote2.html"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/myquote2.html"
+                }
+            }
+        }
+    },
+    "id": "kypj",
+    "is_private": false,
+    "links": {
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+        },
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+        }
+    },
+    "owner": {
+        "display_name": "Teams In Space",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            }
+        },
+        "username": "teamsinspace",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+    },
+    "scm": "git",
+    "title": "API docs snippet",
+    "updated_on": "2015-03-18T19:56:51.269378+00:00"
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>
+  <span class="nolink"> <br/> </span>
+</p>
+<p>Since JSON is always <code>utf-8</code>, it cannot reliably contain file contents for files that are not text. Therefore, JSON snippet documents only contain the filename and links to the file contents. This means that in order to retrieve all parts of a snippet, N+1 requests need to be made (where N is the number of files in the snippet).</p>
+<p>To avoid this problem, retrieve the snippet in multipart/related format, which will include the the contents of all files. This can return the contents of any type of file, including binary:</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets/{teamname or username}/{id} \
+  -H "Accept: multipart/related"]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl <span>https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/</span>  -H "Accept: multipart/related"</code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[HTTP/1.1 200 OK
+Date: Wed, 18 Mar 2015 20:21:01 GMT
+Content-Type: multipart/related; start="snippet"; charset="utf-8"; boundary="===============0818187906501074328=="
+Content-Length: 4086
+
+--===============0818187906501074328==
+Content-Type: application/json; charset="utf-8"
+MIME-Version: 1.0
+Content-ID: snippet
+
+{
+    "scm": "git",
+    "files": {
+        "myquote2.html": {
+            "links": {
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/myquote2.html"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#myquote2.html"
+                }
+            }
+        },
+        "README.md": {
+            "links": {
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/README.md"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24#README.md"
+                }
+            }
+        }
+    },
+    "links": {
+        "watchers": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+        },
+        "commits": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+        },
+        "comments": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+        },
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+        }
+    },
+    "title": "API docs snippet",
+    "creator": {
+        "username": "dans9190",
+        "display_name": "Daniel  Stevens",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}",
+        "links": {
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            }
+        }
+    },
+    "created_on": "2015-03-18T19:56:51.269348+00:00",
+    "owner": {
+        "username": "teamsinspace",
+        "display_name": "Teams In Space",
+        "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}",
+        "links": {
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+            },
+            "html": {
+                "href": "https://bitbucket.org/teamsinspace"
+            },
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+            }
+        }
+    },
+    "updated_on": "2015-03-18T19:56:51.269378+00:00",
+    "id": "kypj",
+    "is_private": false
+}
+--===============0818187906501074328==
+Content-Type: text/plain
+MIME-Version: 1.0
+Content-ID: README.md
+Content-Disposition: attachment; name="file"; filename="README.md"
+
+# README #
+
+This README would normally document whatever steps are necessary to get your application up and running.
+
+### What is this repository for? ###
+
+* Quick summary
+* Version
+* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+
+### How do I get set up? ###
+
+* Summary of set up
+* Configuration
+* Dependencies
+* Database configuration
+* How to run tests
+* Deployment instructions
+
+### Contribution guidelines ###
+
+* Writing tests
+* Code review
+* Other guidelines
+
+### Who do I talk to? ###
+
+* Repo owner or admin
+* Other community or team contact
+--===============0818187906501074328==
+Content-Type: text/plain
+MIME-Version: 1.0
+Content-ID: myquote2.html
+Content-Disposition: attachment; name="file"; filename="myquote2.html"
+
+<!--
+  To add a quote, copy the div below and paste it at the bottom of the file.
+  Then populate it with your quote and attribution.
+  You can add an optional image tag. The image must be linked from an external
+  site and not be in the repository.
+<div class="quote">
+    <blockquote>Your quote goes here</blockquote>
+    <cite>Attribution</cite>
+</div>
+Please do not edit above this line -->
+<div class="quote">
+    <blockquote>very influential stuff</blockquote>
+    <cite>very important person</cite>
+</div>
+<div class="quote">
+    <blockquote>Something really smart</blockquote>
+    <cite>A really smart person</cite>
+</div>
+<div class="quote">
+    <blockquote>Something really nice</blockquote>
+    <cite>A really nice person</cite>
+</div>
+* Connection #0 to host api.bitbucket.org left intact
+--===============0818187906501074328==--]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET a list of snippets for a user or a team</h3>
+<p>Gets a list of all the snippets owned with a user or a team. Authentication is required to return snippets set to private.</p>
+<table>
+  <tbody>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>
+        <p>
+          <span>username </span>
+        </p>
+        <p>
+          <span>or </span>
+        </p>
+        <p>
+          <span>teamname<br/> </span>
+        </p>
+      </td>
+      <td>Yes</td>
+      <td>
+        <p>The Bitbucket username or teamname of the account or team's snippets you want to retrieve.</p>
+        <p>The UUID can also be used. However, remember the <a href="https://confluence.atlassian.com/display/BITBUCKET/Use+the+Bitbucket+REST+APIs#UsetheBitbucketRESTAPIs-uuid-mainUniversallyUniqueIdentifier%28UUID%29">UUID specification</a> regarding special characters.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets/{username or teamname}]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click to expand and view a response...</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace</span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "page": 1,
+    "pagelen": 30,
+    "size": 3,
+    "values": [
+        {
+            "created_on": "2015-03-18T18:50:07.990433+00:00",
+            "id": "KzRo",
+            "is_private": false,
+            "links": {
+                "comments": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/comments"
+                },
+                "commits": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/commits"
+                },
+                "diff": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/diff"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/KzRo"
+                },
+                "patch": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/patch"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo"
+                },
+                "watchers": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/watchers"
+                }
+            },
+            "owner": {
+                "display_name": "Teams In Space",
+                "links": {
+                    "avatar": {
+                        "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/teamsinspace"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+                    }
+                },
+                "username": "teamsinspace",
+                "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+            },
+            "title": "",
+            "updated_on": "2015-03-18T18:50:07.990473+00:00"
+        },
+        {
+            "created_on": "2015-03-18T19:56:51.269348+00:00",
+            "id": "kypj",
+            "is_private": false,
+            "links": {
+                "comments": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+                },
+                "commits": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+                },
+                "diff": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+                },
+                "patch": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+                },
+                "watchers": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+                }
+            },
+            "owner": {
+                "display_name": "Teams In Space",
+                "links": {
+                    "avatar": {
+                        "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/teamsinspace"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+                    }
+                },
+                "username": "teamsinspace",
+                "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+            },
+            "title": "API docs snippet",
+            "updated_on": "2015-03-18T19:56:51.269378+00:00"
+        }
+    ]
+}
+]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET all snippets</h3>
+<p>Retrieves all snippets to which the current user has access. This includes all snippets owned by the current user, but also all snippets owned by any of the teams the user is a member of, or snippets by other users that the current user is either watching or has collaborated on (for instance by commenting on it).</p>
+<table>
+  <tbody>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>
+        <span>Role<br/> </span>
+      </td>
+      <td>no</td>
+      <td>To limit the set of returned snippets, apply the <code>role=[owner|contributor|member]</code> where the roles are defined as follows:<br/>
+        <ul>
+          <li>owner: all snippets owned by the current user</li>
+          <li>contributor: all snippets owned by, or watched by the current user</li>
+          <li>member: owned by the user, their teams, or watched by the current user</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>When no role is specified, all public snippets are returned, as well as your own privately owned snippets. The returned response is a normal Bitbucket-paginated JSON list. This endpoint only supports <code>application/json</code> response and no multipart. As a result, it is not possible to include the file contents.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets?role={owner|contributor|member}]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:rich-text-body>
+    <p>
+      <code>
+        <span class="nolink">curl -u {username} <span class="nolink">https://api.bitbucket.org/2.0/snippets?role=contributor</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "page": 1,
+    "pagelen": 30,
+    "size": 2,
+    "values": [{
+        "created_on": "2015-03-18T19:56:51.269348+00:00",
+        "id": "kypj",
+        "is_private": false,
+        "links": {
+            "comments": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments"
+            },
+            "commits": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits"
+            },
+            "diff": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+            },
+            "html": {
+                "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+            },
+            "patch": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+            },
+            "watchers": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers"
+            }
+        },
+        "owner": {
+            "display_name": "Teams In Space",
+            "links": {
+                "avatar": {
+                    "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/teamsinspace"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+                }
+            },
+            "username": "teamsinspace",
+            "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+        },
+        "title": "API docs snippet",
+        "updated_on": "2015-03-18T19:56:51.269378+00:00"
+    }, {
+        "created_on": "2015-03-18T18:50:07.990433+00:00",
+        "id": "KzRo",
+        "is_private": false,
+        "links": {
+            "comments": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/comments"
+            },
+            "commits": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/commits"
+            },
+            "diff": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/diff"
+            },
+            "html": {
+                "href": "https://bitbucket.org/snippets/teamsinspace/KzRo"
+            },
+            "patch": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/a697ae7cdbfa2ba3dbb4d3bacc7669493ebae5e3/patch"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo"
+            },
+            "watchers": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/KzRo/watchers"
+            }
+        },
+        "owner": {
+            "display_name": "Teams In Space",
+            "links": {
+                "avatar": {
+                    "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Sep/24/teamsinspace-avatar-3731530358-7_avatar.png"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/teamsinspace"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/teams/teamsinspace"
+                }
+            },
+            "username": "teamsinspace",
+            "uuid": "{61fc5cf6-d054-47d2-b4a9-061ccf858379}"
+        },
+        "title": "",
+        "updated_on": "2015-03-18T18:50:07.990473+00:00"
+    }]
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h2>commentsResource</h2>
+<h3>POST a comment to a snippet</h3>
+<p>You can add comments to any snippet you have access to.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X POST https://api.bitbucket.org/2.0/snippets/{username or teamname}/{id}/comments \
+  -H "Content-Type: application/json" \
+  -d '{
+          "content": {
+              "raw": "*Nicely* styled content."
+          }
+      }']]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>This returns a 201 CREATED response with a Location header pointing to the newly created comment's <code>self</code> link. The response body contains the new comment.</p>
+    <p>curl -u {username} -X POST <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments</span> \<br/> -H "Content-Type: application/json" \<br/> -d '{<br/> "content": {<br/> "raw": "*Nicely* styled content."<br/> }<br/> }'</p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "content": {
+        "html": "<p><em>Nicely</em> styled content.</p>",
+        "markup": "markdown",
+        "raw": "*Nicely* styled content."
+    },
+    "created_on": "2015-03-18T18:57:16.333869+00:00",
+    "id": 211,
+    "links": {
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj#comment-211"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments/211"
+        }
+    },
+    "snippet": {
+        "id": "kypj",
+        "links": {
+            "html": {
+                "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+            }
+        }
+    },
+    "updated_on": "2015-03-18T18:57:16.340799+00:00",
+    "user": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    }
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET comments for a specific snippet</h3>
+<p>Used to retrieve a paginated list of all comments for a specific snippet.</p>
+<p>This resource works identical to commit and pull request comments.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippets id}/comments]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} <span class="nolink"> <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kyjp/comments</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "page": 1,
+    "pagelen": 10,
+    "size": 2,
+    "values": [
+        {
+            "content": {
+                "html": "<p><em>Nicely</em> styled content.</p>",
+                "markup": "markdown",
+                "raw": "*Nicely* styled content."
+            },
+            "created_on": "2015-03-18T18:57:16.333869+00:00",
+            "id": 211,
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj#comment-211"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments/211"
+                }
+            },
+            "snippet": {
+                "id": "kypj",
+                "links": {
+                    "html": {
+                        "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+                    }
+                }
+            },
+            "updated_on": "2015-03-18T18:57:16.340799+00:00",
+            "user": {
+                "display_name": "Daniel  Stevens",
+                "links": {
+                    "avatar": {
+                        "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/dans9190"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                    }
+                },
+                "username": "dans9190",
+                "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+            }
+        },
+        {
+            "content": {
+                "html": "<p>Now for another comment. </p>",
+                "markup": "markdown",
+                "raw": "Now for another comment. "
+            },
+            "created_on": "2015-03-18T23:19:59.173879+00:00",
+            "id": 229,
+            "links": {
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj#comment-229"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments/229"
+                }
+            },
+            "snippet": {
+                "id": "kypj",
+                "links": {
+                    "html": {
+                        "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+                    }
+                }
+            },
+            "updated_on": "2015-03-18T23:19:59.174327+00:00",
+            "user": {
+                "display_name": "Daniel  Stevens",
+                "links": {
+                    "avatar": {
+                        "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/dans9190"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                    }
+                },
+                "username": "dans9190",
+                "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+            }
+        }
+    ]
+}
+]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET a specific snippet comment</h3>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id}/comments/{comment id}]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} <span class="nolink"> <span class="nolink">https://api.bitbucket.org/2.0/snippets/dans9190/kyjp/comments/211</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:plain-text-body><![CDATA[{
+    "content": {
+        "html": "<p><em>Nicely</em> styled content.</p>",
+        "markup": "markdown",
+        "raw": "*Nicely* styled content."
+    },
+    "created_on": "2015-03-18T18:57:16.333869+00:00",
+    "id": 211,
+    "links": {
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj#comment-211"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/comments/211"
+        }
+    },
+    "snippet": {
+        "id": "kypj",
+        "links": {
+            "html": {
+                "href": "https://bitbucket.org/snippets/teamsinspace/kypj"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj"
+            }
+        }
+    },
+    "updated_on": "2015-03-18T18:57:16.340799+00:00",
+    "user": {
+        "display_name": "Daniel  Stevens",
+        "links": {
+            "avatar": {
+                "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+            },
+            "html": {
+                "href": "https://bitbucket.org/dans9190"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/users/dans9190"
+            }
+        },
+        "username": "dans9190",
+        "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+    }
+}
+
+]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h2>watchResource</h2>
+<h3>PUT start watching a snippet</h3>
+<p>Used to start watching a snippet. When successful the call returns: <code>HTTP/1.1 204 NO CONTENT</code></p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X PUT https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet ID}/watch]]></ac:plain-text-body>
+</ac:structured-macro>
+<h3>DELETE stop watching a snippet</h3>
+<p>Used to stop watching a snippet. When successful the call returns: <code>HTTP/1.1 204 NO CONTENT</code></p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} -X DELETE https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet ID}/watch]]></ac:plain-text-body>
+</ac:structured-macro>
+<h3>GET current watch status</h3>
+<p>Used to check if the currently authenticated user is watching a specific snippet, this call returns 204 (No Content) if the user is watching the snippet and 404 if not.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl -u {username} https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id}/watch]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} <span class="nolink"> <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watch</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:plain-text-body><![CDATA[HTTP/1.1 204 NO CONTENT
+Date: Wed, 18 Mar 2015 23:06:18 GM
+Content-Type: text/html; charset=utf-8
+Content-Length: 0]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET a list of users watching a snippet</h3>
+<p>Returns a paginated list of all users watching a specific snippet. This resource does not support PUT/POST/DELETE.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id}/watchers]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl <span class="nolink"> <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/watchers</span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "page": 1,
+    "pagelen": 10,
+    "size": 1,
+    "values": [
+        {
+            "display_name": "Daniel  Stevens",
+            "links": {
+                "avatar": {
+                    "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/dans9190"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                }
+            },
+            "username": "dans9190",
+            "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+        }
+    ]
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h2>commitsResource</h2>
+<h3>GET a list of commits for a snippet</h3>
+<p>Returns the list of changes that were made to the snippets. The objects returned here are similar to regular repository commits, except that they don't contain a repository foreign key, but a condensed version of the commit's snippet.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id}/commits/]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/</code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "page": 1,
+    "pagelen": 30,
+    "values": [
+        {
+            "author": {
+                "raw": "Daniel  Stevens <dstevens@atlassian.com>",
+                "user": {
+                    "display_name": "Daniel  Stevens",
+                    "links": {
+                        "avatar": {
+                            "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/dans9190"
+                        },
+                        "self": {
+                            "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                        }
+                    },
+                    "username": "dans9190",
+                    "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+                }
+            },
+            "date": "2015-03-18T19:56:50+00:00",
+            "hash": "503019269b337032912f7fea99ed6f9bf1b91c24",
+            "links": {
+                "diff": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/diff"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24"
+                },
+                "patch": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/patch"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/503019269b337032912f7fea99ed6f9bf1b91c24"
+                }
+            },
+            "message": "",
+            "parents": [
+                {
+                    "hash": "4c0ce23eae4487d0779fe9b021a433ea284dce9e",
+                    "links": {
+                        "html": {
+                            "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                        },
+                        "self": {
+                            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                        }
+                    }
+                }
+            ],
+            "snippet": {
+                "id": "kypj",
+                "links": {
+                    "html": {
+                        "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/503019269b337032912f7fea99ed6f9bf1b91c24"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24"
+                    }
+                }
+            }
+        },
+        {
+            "author": {
+                "raw": "Daniel  Stevens <dstevens@atlassian.com>",
+                "user": {
+                    "display_name": "Daniel  Stevens",
+                    "links": {
+                        "avatar": {
+                            "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/dans9190"
+                        },
+                        "self": {
+                            "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                        }
+                    },
+                    "username": "dans9190",
+                    "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+                }
+            },
+            "date": "2015-03-18T17:25:48+00:00",
+            "hash": "4c0ce23eae4487d0779fe9b021a433ea284dce9e",
+            "links": {
+                "diff": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/diff"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                },
+                "patch": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/patch"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                }
+            },
+            "message": "",
+            "parents": [],
+            "snippet": {
+                "id": "kypj",
+                "links": {
+                    "html": {
+                        "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                    },
+                    "self": {
+                        "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+                    }
+                }
+            }
+        }
+    ]
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h3>GET a specific snippet commit</h3>
+<p>Use this call when you want to retrieve a specific change from a snippet.</p>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[https://api.bitbucket.org/2.0/snippets/{username or teamname}/{commit id}/commits/{SHA1}]]></ac:plain-text-body>
+</ac:structured-macro>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click here to expand and view a response</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>curl -u {username} <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/4c0ce23eae4487d0779fe9b021a433ea284dce9e</span> </code> <br/> <span class="nolink"> </span>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:parameter ac:name="language">js</ac:parameter>
+      <ac:plain-text-body><![CDATA[{
+    "author": {
+        "raw": "Daniel  Stevens <dstevens@atlassian.com>",
+        "user": {
+            "display_name": "Daniel  Stevens",
+            "links": {
+                "avatar": {
+                    "href": "https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/29/dans9190-avatar-2647033047-1_avatar.png"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/dans9190"
+                },
+                "self": {
+                    "href": "https://api.bitbucket.org/2.0/users/dans9190"
+                }
+            },
+            "username": "dans9190",
+            "uuid": "{1cd06601-cd0e-4fce-be03-e9ac226978b7}"
+        }
+    },
+    "date": "2015-03-18T17:25:48+00:00",
+    "hash": "4c0ce23eae4487d0779fe9b021a433ea284dce9e",
+    "links": {
+        "diff": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/diff"
+        },
+        "html": {
+            "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+        },
+        "patch": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e/patch"
+        },
+        "self": {
+            "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/commits/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+        }
+    },
+    "message": "",
+    "parents": [],
+    "snippet": {
+        "id": "kypj",
+        "links": {
+            "html": {
+                "href": "https://bitbucket.org/snippets/teamsinspace/kypj/revisions/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+            },
+            "self": {
+                "href": "https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/4c0ce23eae4487d0779fe9b021a433ea284dce9e"
+            }
+        }
+    }
+}]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<h2>filesResource</h2>
+<h3>GET a specific file in a snippet</h3>
+<p>Retrieves the raw contents of a specific snippet.</p>
+<table>
+  <tbody>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>user or team name</td>
+      <td>Yes</td>
+      <td>The username or the teamname</td>
+    </tr>
+    <tr>
+      <td colspan="1">id</td>
+      <td colspan="1">yes</td>
+      <td colspan="1">The id assigned to the snippet when it was created</td>
+    </tr>
+    <tr>
+      <td colspan="1">files</td>
+      <td colspan="1">yes</td>
+      <td colspan="1">Designates the action to get file contents</td>
+    </tr>
+    <tr>
+      <td colspan="1">filename</td>
+      <td colspan="1">yes</td>
+      <td colspan="1">The name of the file you want to retrieve</td>
+    </tr>
+    <tr>
+      <td colspan="1">revision</td>
+      <td colspan="1">no</td>
+      <td colspan="1">The SHA1 of the commit you want to retrieve. When omitted the most recent revision is returned</td>
+    </tr>
+  </tbody>
+</table>
+<ac:structured-macro ac:name="code">
+  <ac:plain-text-body><![CDATA[curl https://api.bitbucket.org/2.0/snippets/{username or teamname}/{snippet id}/{SHA hash}/files/{file name}]]></ac:plain-text-body>
+</ac:structured-macro>
+<p>
+  <span class="nolink"> <br/> </span>
+</p>
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Click to expand and view a response...</ac:parameter>
+  <ac:rich-text-body>
+    <p>
+      <code>
+        <span class="nolink"> <span class="nolink">curl <span class="nolink">https://api.bitbucket.org/2.0/snippets/teamsinspace/kypj/503019269b337032912f7fea99ed6f9bf1b91c24/files/myquote2.html</span> </span> </span>
+      </code>
+    </p>
+    <ac:structured-macro ac:name="code">
+      <ac:plain-text-body><![CDATA[<!--
+  To add a quote, copy the div below and paste it at the bottom of the file.
+  Then populate it with your quote and attribution.
+  You can add an optional image tag. The image must be linked from an external
+  site and not be in the repository.
+<div class="quote">
+    <blockquote>Your quote goes here</blockquote>
+    <cite>Attribution</cite>
+</div>
+Please do not edit above this line -->
+<div class="quote">
+    <blockquote>very influential stuff</blockquote>
+    <cite>very important person</cite>
+</div>
+<div class="quote">
+    <blockquote>Something really smart</blockquote>
+    <cite>A really smart person</cite>
+</div>]]></ac:plain-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
