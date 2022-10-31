@@ -1,4 +1,4 @@
-cd /mnt/d/folder_name mkdir temp
+cd /mnt/d/folder_name mkdir week1
 echo "hello world" > hello.txt
 dir -p
 ps aux
