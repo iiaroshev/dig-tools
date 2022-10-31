@@ -1,0 +1,353 @@
+Last login: Mon Oct 31 00:52:39 on ttys000
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MacBook-Pro:weeek3 ivan_yaroshev$ mkdir /Users/ivan_yaroshev/Documents/projectfolder/homework/weeek3
+mkdir: /Users/ivan_yaroshev/Documents/projectfolder/homework/weeek3: File exists
+MacBook-Pro:weeek3 ivan_yaroshev$ cd /Users/ivan_yaroshev/Documents/projectfolder/homework/weeek3
+MacBook-Pro:weeek3 ivan_yaroshev$ git init /Users/ivan_yaroshev/Documents/projectfolder/homework/weeek3
+Initialized empty Git repository in /Users/ivan_yaroshev/Documents/projectfolder/homework/weeek3/.git/
+MacBook-Pro:weeek3 ivan_yaroshev$ touch data
+MacBook-Pro:weeek3 ivan_yaroshev$ touch text
+MacBook-Pro:weeek3 ivan_yaroshev$ touch functions.py
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+fatal: pathspec 'notes.txt' did not match any files
+MacBook-Pro:weeek3 ivan_yaroshev$ touch notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git add data
+MacBook-Pro:weeek3 ivan_yaroshev$ git add text
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git add functions.py
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   data
+	new file:   functions.py
+	new file:   notes.txt
+	new file:   text
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git rm cached -- data
+fatal: pathspec 'cached' did not match any files
+MacBook-Pro:weeek3 ivan_yaroshev$ git rm --cached data
+rm 'data'
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   functions.py
+	new file:   notes.txt
+	new file:   text
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	data
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git functions.py
+git: 'functions.py' is not a git command. See 'git --help'.
+MacBook-Pro:weeek3 ivan_yaroshev$ git add functions.py
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git add text
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   functions.py
+	new file:   notes.txt
+	new file:   text
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	data
+
+MacBook-Pro:weeek3 ivan_yaroshev$ commit -m "first step"
+-bash: commit: command not found
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit -m "first step"
+[master (root-commit) 633494e] first step
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 functions.py
+ create mode 100644 notes.txt
+ create mode 100644 text
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline 
+633494e (HEAD -> master) first step
+MacBook-Pro:weeek3 ivan_yaroshev$ echo "this is fine" > notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit -m "a fine change"
+[master 384287f] a fine change
+ 1 file changed, 1 insertion(+)
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+384287f (HEAD -> master) a fine change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit --amend -m "a good change"
+[master 479f001] a good change
+ Date: Mon Oct 31 01:47:14 2022 +0100
+ 1 file changed, 1 insertion(+)
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+479f001 (HEAD -> master) a good change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit -m "a good change correct"
+[master c821167] a good change correct
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	data
+
+nothing added to commit but untracked files present (use "git add" to track)
+MacBook-Pro:weeek3 ivan_yaroshev$ cat notes.txt
+this is good
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit --amend -m "a good change corrected"
+[master 0fea791] a good change corrected
+ Date: Mon Oct 31 01:50:13 2022 +0100
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+0fea791 (HEAD -> master) a good change corrected
+479f001 a good change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git checkout 479f001 notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ cat notes.txt
+this is fine
+MacBook-Pro:weeek3 ivan_yaroshev$ git checkout 0fea791 notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ cat notes.txt
+this is good
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ cat notes.txt
+this is good
+
+MacBook-Pro:weeek3 ivan_yaroshev$ echo "this is the best" > notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git rm functions.py
+rm 'functions.py'
+MacBook-Pro:weeek3 ivan_yaroshev$ ls
+data		notes.txt	text
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	deleted:    functions.py
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   notes.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	data
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git add notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git revert HEAD
+error: your local changes would be overwritten by revert.
+hint: commit your changes or stash them to proceed.
+fatal: revert failed
+MacBook-Pro:weeek3 ivan_yaroshev$ git revert 479f001
+error: your local changes would be overwritten by revert.
+hint: commit your changes or stash them to proceed.
+fatal: revert failed
+MacBook-Pro:weeek3 ivan_yaroshev$ git reset --hard
+HEAD is now at 0fea791 a good change corrected
+MacBook-Pro:weeek3 ivan_yaroshev$ ls
+data		functions.py	notes.txt	text
+MacBook-Pro:weeek3 ivan_yaroshev$ cat notes.txt
+this is good
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+0fea791 (HEAD -> master) a good change corrected
+479f001 a good change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git chechkout 633494e notes.txt
+git: 'chechkout' is not a git command. See 'git --help'.
+
+The most similar command is
+	checkout
+MacBook-Pro:weeek3 ivan_yaroshev$ git checkout 384287f notes.txt
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin git remote add origin https://github.com/iiaroshev/dig-tools.git
+usage: git remote add [<options>] <name> <url>
+
+    -f, --fetch           fetch the remote branches
+    --tags                import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -t, --track <branch>  branch(es) to track
+    -m, --master <branch>
+                          master branch
+    --mirror[=<push|fetch>]
+                          set up remote as a mirror to push to or fetch from
+
+MacBook-Pro:weeek3 ivan_yaroshev$ git branch -M main
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin main
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://github.com/iiaroshev/dig-tools.git
+MacBook-Pro:weeek3 ivan_yaroshev$ git branch -M main
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://github.com/iiaroshev/dig-tools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git branch -M main
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://github.com/iiaroshev/dig-tools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git branch -M main
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add iiaroshev https://github.com/iiaroshev/dig-tools.git
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://github.com/iiaroshev/dig-tools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git branch -M main
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git push
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin main
+
+MacBook-Pro:weeek3 ivan_yaroshev$  git push --set-upstream origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$  git push --set-upstream origin main
+Username for 'https://github.com': iiaroshev
+Password for 'https://iiaroshev@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/iiaroshev/dig-tools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ iiaroshev
+-bash: iiaroshev: command not found
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone --bare https://username@bitbucket.org/exampleuser/old-repository.git
+Cloning into bare repository 'old-repository.git'...
+remote: You may not have access to this repository or it no longer exists in this workspace. If you think this repository exists and you have access, make sure you are authenticated.
+fatal: repository 'https://username@bitbucket.org/exampleuser/old-repository.git/' not found
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone --bare https://username@bitbucket.org/exampleuser/old-repository.git
+Cloning into bare repository 'old-repository.git'...
+remote: You may not have access to this repository or it no longer exists in this workspace. If you think this repository exists and you have access, make sure you are authenticated.
+fatal: repository 'https://username@bitbucket.org/exampleuser/old-repository.git/' not found
+MacBook-Pro:weeek3 ivan_yaroshev$ 
+MacBook-Pro:weeek3 ivan_yaroshev$ $ git clone https://username@bitbucket.org/teamsinspace/documentation-tests.git
+-bash: $: command not found
+MacBook-Pro:weeek3 ivan_yaroshev$ 
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone https://username@bitbucket.org/teamsinspace/documentation-tests.git
+Cloning into 'documentation-tests'...
+Receiving objects: 100% (125/125), 33.61 KiB | 3.36 MiB/s, done.
+Resolving deltas: 100% (59/59), done.
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote remove origin
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git
+Cloning into 'ugh-digtools'...
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (4/4), done.
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin  https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote remove origin
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin  https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git
+MacBook-Pro:weeek3 ivan_yaroshev$ git push -u origin master
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git'
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote -v
+iiaroshev	https://github.com/iiaroshev/dig-tools.git (fetch)
+iiaroshev	https://github.com/iiaroshev/dig-tools.git (push)
+origin	https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git (fetch)
+origin	https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git (push)
+MacBook-Pro:weeek3 ivan_yaroshev$ git remote add origin https://github.com/iiaroshev/dig-tools.git
+fatal: remote origin already exists.
+MacBook-Pro:weeek3 ivan_yaroshev$ git push origin master
+error: src refspec master does not match any.
+error: failed to push some refs to 'https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git'
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+0fea791 (HEAD -> main) a good change corrected
+479f001 a good change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone https://github.com/iiaroshev/dig-tools.git
+Cloning into 'dig-tools'...
+warning: You appear to have cloned an empty repository.
+MacBook-Pro:weeek3 ivan_yaroshev$ git push origin main
+Password for 'https://iaroshev_iv@bitbucket.org': 
+remote: Bitbucket Cloud recently stopped supporting account passwords for Git authentication.
+remote: See our community post for more details: https://atlassian.community/t5/x/x/ba-p/1948231
+remote: App passwords are recommended for most use cases and can be created in your Personal settings:
+remote: https://bitbucket.org/account/settings/app-passwords/
+fatal: Authentication failed for 'https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git push origin main
+Password for 'https://iaroshev_iv@bitbucket.org': 
+remote: Bitbucket Cloud recently stopped supporting account passwords for Git authentication.
+remote: See our community post for more details: https://atlassian.community/t5/x/x/ba-p/1948231
+remote: App passwords are recommended for most use cases and can be created in your Personal settings:
+remote: https://bitbucket.org/account/settings/app-passwords/
+fatal: Authentication failed for 'https://iaroshev_iv@bitbucket.org/iaroshev_iv/ugh-digtools.git/'
+MacBook-Pro:weeek3 ivan_yaroshev$ git clone https://github.com/iiaroshev/dig-tools.git
+fatal: destination path 'dig-tools' already exists and is not an empty directory.
+MacBook-Pro:weeek3 ivan_yaroshev$ git status
+On branch main
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   notes.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	data
+	documentation-tests/
+	ugh-digtools/
+
+MacBook-Pro:weeek3 ivan_yaroshev$ ls
+data			functions.py		ugh-digtools
+dig-tools		notes.txt
+documentation-tests	text
+MacBook-Pro:weeek3 ivan_yaroshev$ git commit -m "Add project"
+[main 2ab92cf] Add project
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+MacBook-Pro:weeek3 ivan_yaroshev$ git log --oneline
+2ab92cf (HEAD -> main) Add project
+0fea791 a good change corrected
+479f001 a good change
+633494e first step
+MacBook-Pro:weeek3 ivan_yaroshev$ git push
