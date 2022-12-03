@@ -1,6 +1,8 @@
+#from homework 5
+
 import pandas as pd
 import numpy as np
-import h5py #stackoverflow recommended
+import h5py 
 import time
 
 df = pd.DataFrame(np.random.randn(10**6, 4), columns=list('xyzq'))
@@ -8,7 +10,7 @@ df['u'] = df['q']
 
 time_req = open('times_req.txt', 'w')
 
-feather_start = time.time()   #feather
+feather_start = time.time()   
 
 df.to_feather('Feather')
 
@@ -16,7 +18,7 @@ feather_end = time.time()
 
 time_req.write("Time spent to Feather file: " + str(feather_end-feather_start) + " seconds " + '\n')
 
-hdf_start = time.time()    #hdf
+hdf_start = time.time()    
 
 df.to_hdf('HDF', key = 'df')
 
@@ -24,7 +26,7 @@ hdf_end = time.time()
 
 time_req.write("Time spent to HDF file: " + str(hdf_end-hdf_start) + " seconds " + '\n')
 
-parquet_start = time.time()    #parquet
+parquet_start = time.time() 
 
 df.to_parquet('Parquet')
 
