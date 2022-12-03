@@ -5,8 +5,8 @@ import numpy as np
 import h5py 
 import time
 
-df = pd.DataFrame(np.random.randn(10**6, 4), columns=list('xyzq'))
-df['u'] = df['q']
+df = pd.DataFrame(np.random.randn(10**6, 4), columns=list('xycv'))
+df['y'] = df['c']
 
 time_req = open('times_req.txt', 'w')
 
@@ -34,5 +34,5 @@ parquet_end = time.time()
 
 time_req.write("Time spent to Parquet file: " + str(parquet_end-parquet_start) + " seconds " + '\n')
 
-readFrame = pd.read_feather('Feather', columns=None, use_threads=True)  #for the last task
+readFrame = pd.read_feather('Feather', columns=None, use_threads=True)  #last task
 print(readFrame)
