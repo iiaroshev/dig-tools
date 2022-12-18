@@ -1,7 +1,9 @@
 final
 ==============================
 
-This is my project on GDP and stock market growth. 
+Department of Banking and Finance, University of Zurich, Igor Pozdeev
+
+My
 
 Project Organization
 ------------
