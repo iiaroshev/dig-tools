@@ -1,9 +1,15 @@
-final
+Final
 ==============================
 
-Department of Banking and Finance, University of Zurich, Igor Pozdeev
+# Department of Banking and Finance, University of Zurich, Igor Pozdeev
 
-Author: Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
+# Author
+Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
+
+# Guide
+in the folder 
+
+
 
 Project Organization
 ------------
