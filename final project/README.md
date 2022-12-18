@@ -7,7 +7,8 @@ Final
 Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
 
 # Guide
-in the folder 
+in the folder 'research code' you will find both notebook with finished research and figures and plots from it (folder 'visuals'). 
+In folder report
 
 
 
