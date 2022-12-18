@@ -3,7 +3,7 @@ final
 
 Department of Banking and Finance, University of Zurich, Igor Pozdeev
 
-My
+Author: Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
 
 Project Organization
 ------------
