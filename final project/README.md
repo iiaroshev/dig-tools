@@ -13,7 +13,8 @@ In folder 'reports' you will meet my latex paper imported from Overleaf in the f
 # Reproducibiity
 Check the small instructions in the 'reproducinility' folder. I suggest you to use my Binder link.
 
-
+# Project tree
+Project documentation based on applying cookiecutter project template
 
 Project Organization
 ------------
