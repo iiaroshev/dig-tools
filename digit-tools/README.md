@@ -1,7 +1,7 @@
 final
 ==============================
 
-final submission
+This is my project on GDP and stock market growth. 
 
 Project Organization
 ------------
