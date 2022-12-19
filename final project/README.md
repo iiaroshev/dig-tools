@@ -1,9 +1,20 @@
-final
+Final
 ==============================
 
-Department of Banking and Finance, University of Zurich, Igor Pozdeev
+# Department of Banking and Finance, University of Zurich, Igor Pozdeev
 
-Author: Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
+# Author
+Ivan Iaroshev (ivan.iaroshev@uzh.ch, 22-710-552)
+
+# Guide
+in the folder 'research code' you will find both notebook with finished research and figures and plots from it (folder 'visuals'). 
+In folder 'reports' you will meet my latex paper imported from Overleaf in the format of pdf file and the bib file. Look for the presentation in the same folder.
+
+# Reproducibiity
+Check the small instructions in the 'reproducinility' folder. I suggest you to use my Binder link.
+
+# Project tree
+Project documentation based on applying cookiecutter project template
 
 Project Organization
 ------------
